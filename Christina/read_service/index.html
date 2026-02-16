@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>� Cat Statistics</title>
+    <title>Cat Statistics</title>
     <style>
         * {
             margin: 0;
@@ -128,14 +128,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>📊 Statistiken</h1>
+        <h1>Statistiken</h1>
 
         <div class="cat-image">
             <img id="catImage" src="hangry_cat.jpeg" alt="Katze">
         </div>
 
         <div class="section">
-            <h2>📈 Fütterungsstatistiken</h2>
+            <h2>Fütterungsstatistiken</h2>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-label">Fütterungen:</span>
@@ -146,10 +146,10 @@
                     <span class="stat-value" id="lastFed">-</span>
                 </div>
             </div>
-            <button onclick="loadStats()">🔄 Aktualisieren</button>
+            <button onclick="loadStats()">Aktualisieren</button>
         </div>
 
-        <a href="http://localhost:5001" class="nav-link">🍽️ Zur Fütterungsseite</a>
+        <a href="http://localhost:5001" class="nav-link">Zur Fütterungsseite</a>
     </div>
 
     <script>
@@ -178,11 +178,11 @@
             
             if (feedCount === 0) {
                 // Hungrige Katze
-                catImage.src = 'hangry_cat.jpeg';
+                catImage.src = './hangry_cat.jpeg';
                 catImage.alt = 'Hungrige Katze';
             } else {
                 // Essende Katze
-                catImage.src = 'eating_cat.jpeg';
+                catImage.src = './eating_cat.jpeg';
                 catImage.alt = 'Essende Katze';
             }
         }

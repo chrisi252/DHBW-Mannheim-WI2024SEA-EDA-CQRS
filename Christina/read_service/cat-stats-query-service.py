@@ -4,10 +4,9 @@ import threading, pika, json
 import os
 import time
 
-app = Flask(__name__, static_folder='/cat-stats-query-service')
+app = Flask(__name__, static_folder='/cat-stats-query-service', static_url_path='')
 CORS(app)
 
-# Unser Readmodel (In-Memory für die Aufgabe) [cite: 79]
 stats = {"feed_count": 0, "last_fed": None}
 
 def consume_events():
@@ -18,7 +17,6 @@ def consume_events():
             channel = connection.channel()
             channel.exchange_declare(exchange='cat_events', exchange_type='fanout')
             
-            # Temporäre Queue für diesen Service
             result = channel.queue_declare(queue='', exclusive=True)
             channel.queue_bind(exchange='cat_events', queue=result.method.queue)
             print(f"✅ Event-Listener bereit auf Queue: {result.method.queue}")
@@ -39,9 +37,9 @@ def consume_events():
             channel.start_consuming()
         except Exception as e:
             print(f"❌ Fehler in consume_events: {e}")
-            time.sleep(5)  # Warte 5 Sekunden vor Retry
+            time.sleep(5)  # 5 sekunden warten dann retry
 
-# Starte den Event-Consumer in einem eigenen Thread
+# Sevent consumer starten in eigenen thread
 consumer_thread = threading.Thread(target=consume_events, daemon=True)
 consumer_thread.start()
 
@@ -53,7 +51,6 @@ def index():
 def get_stats():
     if request.method == 'OPTIONS':
         return '', 204
-    # Schnelle Abfrage des optimierten Readmodels [cite: 57, 79]
     return jsonify(stats)
 
 if __name__ == '__main__':
