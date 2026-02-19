@@ -24,7 +24,7 @@ def consume_events():
             def callback(ch, method, properties, body):
                 try:
                     data = json.loads(body)
-                    print(f"📨 Event erhalten: {data}")
+                    print(f"Event erhalten: {data}")
                     if data['event'] == 'cat.fed':
                         stats["feed_count"] += 1
                         stats["last_fed"] = data['data']['name']

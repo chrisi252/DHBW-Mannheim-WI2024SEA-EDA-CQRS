@@ -1,12 +1,12 @@
 services:
-  # Der Message Broker für die Event-Driven Architecture (EDA)
+  # Message Broker für EDA
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"   # Standard-Port für Kommunikation
       - "15672:15672" # Dashboard zur Kontrolle
 
-  # Die Schreibseite (Commands)
+  # write (Commands)
   feeding-service:
     build: ./write_service
     ports:
@@ -16,7 +16,7 @@ services:
     environment:
       - RABBITMQ_HOST=rabbitmq
 
-  # Die Leseseite (Queries)
+  # read (Queries)
   stats-service:
     build: ./read_service
     ports:
