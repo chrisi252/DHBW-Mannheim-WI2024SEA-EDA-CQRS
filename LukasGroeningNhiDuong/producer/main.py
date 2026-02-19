@@ -1,3 +1,4 @@
+import time
 from fastapi import FastAPI
 import pika
 import uvicorn
@@ -16,8 +17,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def get_rabbitmq_connection() -> pika.BlockingConnection:
-    return pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST))
+def get_rabbitmq_connection(retries=5, delay=2) -> pika.BlockingConnection:
+    for attempt in range(retries):
+        try:
+            return pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST))
+        except Exception:
+            print(f"Versuch {attempt+1}/{retries} fehlgeschlagen, warte {delay}s...", flush=True)
+            time.sleep(delay)
+    raise RuntimeError("RabbitMQ nicht erreichbar nach mehreren Versuchen")
+
 
 @app.post("/press_button")
 def press_button() -> dict:
